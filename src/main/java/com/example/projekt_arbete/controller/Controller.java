@@ -32,8 +32,8 @@ import java.util.*;
 @RequestMapping("/films")
 public class Controller {
 
-    @Value("${ApiKey}")
-    private String ApiKey;
+
+    private String ApiKey="df0eb7f0729911f3781785d3811ec8dd";
 
     //private final FilmRepository filmRepository;
 

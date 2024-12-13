@@ -27,8 +27,8 @@ import java.util.*;
 @Service
 public class FilmService implements IFilmService{
 
-    @Value("${ApiKey}")
-    private String ApiKey;
+
+    private String ApiKey="df0eb7f0729911f3781785d3811ec8dd";
 
     //@Autowired
     //private final FilmRepository filmRepository;
