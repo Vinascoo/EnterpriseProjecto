@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Opinion page</title>
+</head>
+<body>
+    <h1 th:text="${film.title}"></h1>
+    <br/>
+    <a href="/">Tillbaka</a>
+    <br/>
+
+    <div>
+        <p>Opinion</p>
+        <p th:text="${film.opinion}"></p>
+
+        <br/>
+        <br/>
+
+        <form th:action="@{/opinion}" th:object="${film}" method="post">
+
+            <input type="hidden" th:field="*{title}">
+
+            <input type="hidden" th:field="*{id}">
+            <label>
+                <input type="text" th:field="*{opinion}" placeholder="Din åsikt">
+            </label>
+
+            <button type="submit">Ändra/lägg till</button>
+
+        </form>
+    </div>
+
+
+</body>
+</html>
