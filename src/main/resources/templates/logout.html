@@ -2,16 +2,58 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Ut logga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Out</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff7e5f;
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            background: #ff7e5f;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #feb47b;
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Du vill loggar ut?</h1>
+<div class="container">
+    <h1>Want to Log Out?</h1>
     <form th:action="@{/logout}" method="post">
-
-        <button type="submit">Logga ut?</button>
-
+        <button type="submit">Log Out</button>
     </form>
-
+</div>
 </body>
 </html>

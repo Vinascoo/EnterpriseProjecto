@@ -35,8 +35,6 @@ public class Controller {
 
     private String ApiKey="df0eb7f0729911f3781785d3811ec8dd";
 
-    //private final FilmRepository filmRepository;
-
 
     private final IFilmService filmService;
 
@@ -56,7 +54,6 @@ public class Controller {
         this.userService = userService;
     }
 
-    // TODO - Error handle this shit: internal server error 500 if no film is found - DONE?
     @GetMapping("/{id}")
     public ResponseEntity<Response> getFilmById (@RequestParam(defaultValue = "movie") String movie, @PathVariable int id) {
 
@@ -64,7 +61,6 @@ public class Controller {
 
     }
 
-    //TODO - Make sure that films with same name or id cannot be saved, otherwise you can add many of the same films - DONE!
     @PostMapping("/{id}")
     public ResponseEntity<Response> saveFilmById (@RequestParam(defaultValue = "movie") String movie, @PathVariable int id) throws IOException {
 
@@ -87,7 +83,6 @@ public class Controller {
         ResponseEntity<Response> film = filmService.findById(id);
 
         FilmModel film2 = (FilmModel) film.getBody();
-        //return film;
         return ResponseEntity.ok(new ErrorResponse(film2.getTitle()));
     }
 
@@ -131,7 +126,6 @@ public class Controller {
         }
     }
 
-    // example url: "https://localhost:8443/films/search?filmName=Reservoir%20Dogs"
     @GetMapping("/search")
     public ResponseEntity<Response> searchByTitle (@RequestParam String filmName) {
 
@@ -142,7 +136,6 @@ public class Controller {
         }
     }
 
-    //Example url: https://localhost:8443/films/country/US?title=Fight%20Club
     @GetMapping("/country/{country}")
     public ResponseEntity<Response> getFilmsByCountry (@PathVariable("country") String country,
                                                        @RequestParam(value = "title", required = false) String title) {
@@ -161,7 +154,6 @@ public class Controller {
     }
 
     @GetMapping("/getfilm/{filmId}")
-    //https://localhost:8443/films/getfilm/1?opinion=true&description=true example
     public ResponseEntity<Response> getFilmWithAdditionalInfo (@PathVariable("filmId") int filmId,
                                                              @RequestParam(value = "opinion", defaultValue = "false") boolean opinion,
                                                              @RequestParam(value = "description", defaultValue = "false") boolean description) {
@@ -169,51 +161,5 @@ public class Controller {
         return filmService.getFilmWithAdditionalInfo(filmId, opinion, description);
 
     }
-
-    /*
-    @GetMapping("/image/{id}")
-    private ResponseEntity<byte[]> seeImage (@PathVariable Integer id) throws IOException {
-        FilmModel film = filmService.getFilmById(id).get();
-
-        String poster = film.getPoster_path();
-
-        String path = "https://image.tmdb.org/t/p/original/";
-
-        String imagePath = path + poster;
-
-
-
-//        URL url = new URL(imagePath);
-//
-//        URLConnection connection = url.openConnection();
-//
-//        connection.connect();
-//
-//        try (InputStream inputStream = connection.getInputStream();
-//             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()
-//
-//        ){
-//
-//            byte[] buffer = new byte[1024];
-//            int bytesRead;
-//
-//            while ((bytesRead = inputStream.read(buffer)) != -1) {
-//                byteArrayOutputStream.write(buffer, 0, bytesRead);
-//            }
-//
-//            film.setImage(byteArrayOutputStream.toByteArray());
-//
-//            filmService.save(film);
-
-            //return byteArrayOutputStream.toByteArray();
-
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(film.getImage());
-
-
-
-    }
-
-     */
-
 
 }

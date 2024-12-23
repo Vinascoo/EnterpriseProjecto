@@ -7,22 +7,17 @@ import jakarta.validation.constraints.Size;
 
 public record UserDTO(
 
-        @NotBlank(message = "Du får inte ha den tom")
-        @Size(message = "Användarnamnet MÅSTE vara minst 3, inte mer än 10", min = 3, max = 10)
+        @NotBlank(message = "Cannot be empty")
+        @Size(message = "Username must be at least 3, not more than 10", min = 3, max = 10)
         String username,
 
-        @NotBlank(message = "Du får inte ha den tom")
-        @Size(message = "Lösenordet MÅSTE vara minst 3, inte mer än 10", min = 3, max = 10)
+        @NotBlank(message = "Cannot be empty")
+        @Size(message = "Username must be at least 3, not more than 10", min = 3, max = 10)
         String password,
 
-        //@NotNull(message = "ska vara något")
+
         UserRole userRole
 
         ) {
-//    public UserDTO(CustomUser customUser) {
-//        this(customUser.getUsername(), customUser.getPassword());
-//
-//    }
-
 
 }

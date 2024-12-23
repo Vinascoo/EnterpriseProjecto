@@ -2,80 +2,140 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8cdda, #1e90ff);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 3rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .error ul {
+            color: #e74c3c;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .status-message {
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .status-message.success {
+            color: #4CAF50;
+        }
+
+        .status-message.error {
+            color: #e74c3c;
+        }
+
+        button {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Registrera ny användare</h1>
-    <a href="/">Tillbaka till huvud/loginsida</a>
-
-    <br/>
-    <br/>
+<div class="container">
+    <h1>Register New User</h1>
+    <a href="/">Return to Main/Login</a>
 
     <form th:action="@{/register}" th:object="${user}" method="post">
-
-        <label>Username
-            <input type="text" name="username" th:field="*{username}">
-        </label>
-
+        <!-- Username Field -->
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" th:field="*{username}" placeholder="Enter your username">
         <div th:if="${#fields.hasErrors('username')}" class="error">
             <ul>
                 <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
             </ul>
         </div>
 
-        <br/>
-
-        <div th:if="${status != 'användare registrerad'}">
-            <span th:text="${status}"></span>
-        </div>
-
-        <br/>
-        <br/>
-
-        <label>Password
-            <input type="password" name="password" th:field="*{password}">
-        </label>
-
-        <br/>
-        <br/>
-
+        <!-- Password Field -->
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" th:field="*{password}" placeholder="Enter your password">
         <div th:if="${#fields.hasErrors('password')}" class="error">
             <ul>
                 <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
             </ul>
         </div>
 
-        <!--
-        <label>
-            roll:
-            <select th:field="*{userRole}">
-                <option th:each="index : ${roles}" th:value="${index}" th:text="${index}"></option>
-            </select>
-        </label>
-        -->
-
+        <!-- Role Field -->
         <div th:if="${#fields.hasErrors('userRole')}" class="error">
             <ul>
                 <li th:each="err : ${#fields.errors('userRole')}" th:text="${err}"></li>
             </ul>
         </div>
 
-        <br/>
-        <br/>
-
-
-
-        <button type="submit">Registrera!</button>
-
+        <!-- Submit Button -->
+        <button type="submit">Register!</button>
     </form>
 
-
-
-    <br/>
-
-    <div th:if="${status == 'användare registrerad'}">
+    <!-- Status Message -->
+    <div th:if="${status}" class="status-message" th:classappend="${status == 'användare registrerad' ? 'success' : 'error'}">
         <span th:text="${status}"></span>
     </div>
-
+</div>
 </body>
 </html>

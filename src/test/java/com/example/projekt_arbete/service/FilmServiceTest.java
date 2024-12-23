@@ -33,8 +33,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class FilmServiceTest {
 
-    //@Mock
-    //private FilmRepository filmRepository;
 
     @Mock
     private Authentication authentication;
@@ -83,33 +81,6 @@ public class FilmServiceTest {
 
     }
 
-//    @Test
-//    public void testSaveFilm() throws Exception {
-//        // Mock URL connection and InputStream
-//        URL mockUrl = Mockito.mock(URL.class);
-//        URLConnection mockConnection = Mockito.mock(URLConnection.class);
-//        InputStream mockInputStream = Mockito.mock(InputStream.class);
-//
-//        when(mockUrl.openConnection()).thenReturn(mockConnection);
-//        when(mockConnection.getInputStream()).thenReturn(mockInputStream);
-//
-//        // Mock the response for InputStream read
-//        ByteArrayOutputStream mockByteArrayOutputStream = Mockito.mock(ByteArrayOutputStream.class);
-//        when(mockByteArrayOutputStream.toByteArray()).thenReturn(new byte[0]); // Mock empty byte array
-//
-//        // Mock FilmRepository save behavior
-//        when(filmRepository.save(any(FilmModel.class))).thenReturn(mockFilm);
-//        when(filmRepository.findByTitle(anyString())).thenReturn(Optional.empty());
-//
-//        // Execute the method
-//        ResponseEntity<Response> response = filmService.save(mockFilm);
-//
-//        // Assert the results
-//        assertEquals(200, response.getStatusCodeValue(), "Status code should be 200 OK");
-//        verify(mockConnection, times(1)).connect(); // Ensure that connection is attempted once
-//    }
-
-
 
     @Test
     public void testGetFilmByIdFound() {
@@ -137,16 +108,16 @@ public class FilmServiceTest {
     public void testDeleteByIDSuccess () throws Exception {
 
         Integer filmId = 1;
-        when(filmDao.findById(filmId)).thenReturn(Optional.of(mockFilm)); // Film exists
+        when(filmDao.findById(filmId)).thenReturn(Optional.of(mockFilm));
 
-        // Act
+
         ResponseEntity<String> response = filmService.deleteById(filmId);
 
-        // Assert
+
         assertEquals(200, response.getStatusCodeValue(), "Status code should be 200 OK");
         assertEquals("Film med id 1 tagen borta", response.getBody(), "The response body should contain the success message");
 
-        // Verify that deleteById was called once
+
         verify(filmDao, times(1)).deleteById(filmId);
     }
 
@@ -161,7 +132,7 @@ public class FilmServiceTest {
         assertEquals(404, response.getStatusCodeValue(), "Status code should be 404 Not Found");
         assertEquals("no film found with id: 2", response.getBody(), "The response body should contain the error message");
 
-        // Verify that deleteById was never called because filmId did not match
+
         verify(filmDao, never()).deleteById(filmId);
     }
 
@@ -170,10 +141,10 @@ public class FilmServiceTest {
 
         Integer filmId = 1;
         when(filmDao.findById(filmId)).thenReturn(Optional.of(mockFilm));
-        doThrow(new RuntimeException("Database error")).when(filmDao).deleteById(filmId); // exception
+        doThrow(new RuntimeException("Database error")).when(filmDao).deleteById(filmId);
 
         assertThrows(Exception.class, () -> {
-            filmService.deleteById(filmId); // should throw an exception due to the error in deleteById
+            filmService.deleteById(filmId);
         });
     }
 
@@ -257,7 +228,7 @@ public class FilmServiceTest {
 
 
     @Test
-    //@MockitoSettings(strictness = Strictness.LENIENT)
+
     public void testUpdateOpinion () {
 
         securityContext = mock(SecurityContext.class);
@@ -288,7 +259,7 @@ public class FilmServiceTest {
 
 
     @Test
-   // @MockitoSettings(strictness = Strictness.LENIENT)
+
     public void testAddOpinion () {
 
         securityContext = mock(SecurityContext.class);

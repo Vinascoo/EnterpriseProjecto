@@ -29,8 +29,6 @@ public class CustomUser {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-//    @OneToMany(mappedBy = "customUser", cascade = CascadeType.ALL)
-//    private List<FilmModel> filmList;
 
     @ManyToMany(mappedBy = "customUsers")
     private List<FilmModel> filmList;
@@ -88,13 +86,12 @@ public class CustomUser {
     public List<SimpleGrantedAuthority> getAuthorities () {
         return userRole.getAuthorities();
     }
-    // Permissions include ["GET", "DELETE"]
-    //@JsonIgnore //userRepository.save() will print out these details otherwise
+
     public List<String> getPermissions () {
         return userRole.getPermission();
     }
 
-    //Role include: ADMIN (UserRoles.name())
+
     public UserRole getUserRole() {
         return userRole;
     }

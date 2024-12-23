@@ -11,16 +11,9 @@ import java.util.Optional;
 @Component
 public class FilmDAO implements IFilmDAO {
 
-    //@Value("${ApiKey}")
-    //private String ApiKey;
 
     private final FilmRepository filmRepository;
 
-    //private final RateLimiter rateLimiter;
-
-   // private final WebClient webClientConfig;
-
-    //private final IUserService userService;
 
     @Autowired
     public FilmDAO(FilmRepository filmRepository

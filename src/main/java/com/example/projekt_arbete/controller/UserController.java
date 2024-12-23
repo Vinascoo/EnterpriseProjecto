@@ -58,22 +58,13 @@ public class UserController {
     public String registerUser (@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult
                                 ,Model model
 
-                                //,@ModelAttribute("roles") UserRole role
     ) {
-        //System.out.println("role: " + role);
 
-//        CustomUser newUser = new CustomUser(userDTO.username(), encoder.encode(userDTO.password()));
-//        newUser.setUserRole(userDTO.userRole());
-//        newUser.setAccountNonLocked(true);
-//        newUser.setEnabled(true);
-//
-//        newUser.setAccountNonExpired(true);
-//        newUser.setCredentialNonExpired(true);
 
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("roles" , UserRole.values());
-            //model.addAttribute("user" , new UserDTO("", "", null));
+
 
             return "register";
         }

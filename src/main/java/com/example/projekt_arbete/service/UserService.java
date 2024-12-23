@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService{
 
-    //private final UserRepository userRepository;
+
     private final IUserDAO userDAO;
 
     private final PasswordEncoder encoder;
@@ -26,7 +26,7 @@ public class UserService implements IUserService{
 
     @Autowired
     public UserService (IUserDAO userDAO, PasswordEncoder encoder, IFilmDAO filmDAO) {
-        //this.userRepository = userRepository;
+
         this.userDAO = userDAO;
         this.encoder = encoder;
         this.filmDAO = filmDAO;
@@ -60,17 +60,17 @@ public class UserService implements IUserService{
 
                 userDAO.save(newUser);
 
-                return "användare registrerad";
+                return "User is registered";
 
             } else {
-                throw new Exception("Du får inte, användare finns redan med samma namn");
+                throw new Exception("You are not allowed, user already exists with the same name");
             }
 
         } catch (Exception e) {
             return e.getMessage();
         }
 
-       // return "failure";
+
     }
 
     @Override

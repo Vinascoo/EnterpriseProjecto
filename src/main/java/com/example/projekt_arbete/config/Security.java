@@ -23,7 +23,7 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-//@EnableWebSecurity
+
 @Configuration
 public class Security {
 
@@ -37,15 +37,7 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
-                //.csrf(Customizer.withDefaults())
-                //.csrf(csrf -> csrf.disable())
-//                .csrf(csrf -> csrf
-//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 
-
-                        //.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
                 .authorizeHttpRequests(
                     authorizeRequests -> authorizeRequests
                             .requestMatchers( "https://localhost:8443/login", "/logout").permitAll()
@@ -74,9 +66,9 @@ public class Security {
     @Bean
     public RateLimiter rateLimiter () {
         RateLimiterConfig config = RateLimiterConfig.custom()
-                .limitForPeriod (1000) // Max requests per interval
-                .limitRefreshPeriod (Duration.ofSeconds(30)) // Interval duration
-                .timeoutDuration (Duration.ofSeconds(5)) // Timeout for acquiring permits
+                .limitForPeriod (1000)
+                .limitRefreshPeriod (Duration.ofSeconds(30))
+                .timeoutDuration (Duration.ofSeconds(5))
                 .build();
         return RateLimiter.of("myRateLimiter" , config);
     }
@@ -84,7 +76,7 @@ public class Security {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/h2-console/**", "/user/**", /*"/register",*/ "/update/**", /*"/list/**",*/ "/update/**"/*, "/delete/**"*/);
+        return (web) -> web.ignoring().requestMatchers("/h2-console/**", "/user/**", "/update/**",  "/update/**");
     }
 
 

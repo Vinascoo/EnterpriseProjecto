@@ -1,92 +1,134 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Detaljer</title>
-    <script>
-      function toggleImage(imgId) {
-          const img = document.getElementById(imgId);
-          if (img.style.display === "none") {
-              img.style.display = "block";
-          } else {
-              img.style.display = "none";
-          }
-      }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
 
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3, h4 {
+      color: #5a5cda;
+    }
+
+    a {
+      color: #5a5cda;
+      text-decoration: none;
+      margin-right: 1rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      background: #5a5cda;
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #4e52c6;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 1rem 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+    }
+
+    .message {
+      background: #e0f7fa;
+      color: #00796b;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script>
+    function toggleImage(imgId) {
+      const img = document.getElementById(imgId);
+      img.classList.toggle('hidden');
+    }
+  </script>
 </head>
 <body>
-
-  <div style="max-width: 500px">
-    <h1 th:text="${film.title}"></h1>
-    <a href="/">Till startsidan</a>
-    <br/>
-    <a href="/movies/savedfilms">Till filmsidan</a>
-
-    <div th:if="${saved}">
-      <p th:text="${saved}"></p>
-    </div>
-
-    <div th:if="${saved == null}">
-      <!--
-      <form th:action="@{/films/{id}(id=${film.id})}" th:object="${film}" method="post">
-              <input type="hidden" th:field="*{id}"/>
-              <button type="submit">Lägg till film: Controller saveFilmById</button>
-      </form>
-      -->
-
-      <form th:action="@{/movies/savefilm}" th:object="${film}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <button type="submit">Lägg till film</button>
-      </form>
-
-    </div>
-
-    <br/>
-
-    <h2 th:text="${film.tagline}"></h2>
-
-    <button type="button" th:onclick="'toggleImage(1)'">Visa/Dölj Bild</button>
-    <br/>
-
-    <img th:id="1" th:src="'https://image.tmdb.org/t/p/original/' + ${film.poster_path}" style="display: block; max-width: 100%; max-height: 300">
-    <span th:text="${film.id}"></span>
-    <br/>
-    <br/>
-
-    <h4 th:text="${film.overview}"></h4>
-    <br/>
-    <br/>
-
-    <h3>Användare som har den här filmen på sin lista: </h3>
-
-    <ul>
-
-      <li th:each="user : ${film.customUsers}">
-
-        <span th:text="${user.username}"></span>
-        <!--<span th:text="${user.userFilms}"></span>-->
-
-      </li>
-
-    </ul>
-
-    <br/>
-    <br/>
-
-    <h3 th:if="${not #lists.isEmpty(film.userFilms)}">Vad säger användare om filmen: </h3>
-
-    <ul>
-
-      <li th:each="userfilm : ${film.userFilms}">
-
-        <span>"</span><span th:text="${userfilm.opinion}"></span> <span>" - </span><span th:text="${userfilm.customUser.username}"></span>
-
-
-      </li>
-
-    </ul>
-
+<div class="container">
+  <h1 th:text="${film.title}">Movie Title</h1>
+  <div>
+    <a href="/">To Main</a>
+    <a href="/movies/savedfilms">To Movies</a>
   </div>
+
+  <div th:if="${saved}" class="message">
+    <p th:text="${saved}">Saved message</p>
+  </div>
+
+  <div th:if="${saved == null}">
+    <form th:action="@{/movies/savefilm}" th:object="${film}" method="post">
+      <input type="hidden" th:field="*{id}" />
+      <button type="submit">Add Movie</button>
+    </form>
+  </div>
+
+  <h2 th:text="${film.tagline}">Tagline</h2>
+  <button type="button" th:onclick="'toggleImage(1)'">Toggle Image</button>
+  <img th:id="1" th:src="'https://image.tmdb.org/t/p/original/' + ${film.poster_path}" alt="Movie Poster">
+  <p><strong>ID:</strong> <span th:text="${film.id}">123</span></p>
+
+  <h4 th:text="${film.overview}">Movie Overview</h4>
+
+  <h3>User who saved this movie:</h3>
+  <ul>
+    <li th:each="user : ${film.customUsers}">
+      <span th:text="${user.username}">Username</span>
+    </li>
+  </ul>
+
+  <h3 th:if="${not #lists.isEmpty(film.userFilms)}">User Opinions:</h3>
+  <ul>
+    <li th:each="userfilm : ${film.userFilms}">
+      <span>"</span><span th:text="${userfilm.opinion}">Opinion</span><span>" - </span>
+      <span th:text="${userfilm.customUser.username}">User</span>
+    </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -2,36 +2,118 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Admin sida</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #4e54c8;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #4e54c8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li span {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        button {
+            background: #4e54c8;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #3e44a6;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Admin sida Under påbyggnad</h1>
+<div class="container">
+    <h1>Admin Site</h1>
+    <a href="/">To Manage Movies Site</a>
 
-    <a href="/">Till hanterar film sida</a>
+    <ul>
+        <li th:each="user : ${users}">
+            <div>
+                <span>ID: <span th:text="${user.id}"></span></span>
+                <span>Username: <span th:text="${user.username}"></span></span>
+            </div>
+            <form th:action="@{/delete}" method="post">
+                <input type="hidden" name="id" th:value="${user.id}" />
+                <button type="submit">Remove User</button>
+            </form>
+        </li>
+    </ul>
 
-    <br/>
-    <div>
-        <ul>
-            <li th:each="user : ${users}">
-
-
-                <span th:text="${user.id}"></span> <span th:text="${user.username}"></span>
-
-                <form th:action="@{/delete}" method="post">
-                    <input type="hidden" name="id" th:value="${user.id}" />
-                    <button type="submit">Ta bort användare</button>
-                </form>
-
-            </li>
-
-        </ul>
-    </div>
-
-    <br/>
-
-    <div th:if="${error}">
+    <div th:if="${error}" class="error-message">
         <p th:text="${error}"></p>
     </div>
-
+</div>
 </body>
 </html>

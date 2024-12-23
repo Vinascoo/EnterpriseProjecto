@@ -12,15 +12,6 @@ public class FilmModel implements Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int filmid;
 
-    //@Lob
-    //private byte[] image;
-
-    //@Lob
-    //private String base64Image;
-
-//    @ManyToOne
-//    @JoinColumn(name = "custom_user_id")
-//    private CustomUser customUser;
 
     @ManyToMany
     @JoinTable(
@@ -86,8 +77,7 @@ public class FilmModel implements Response {
     private double vote_average;
     private int vote_count;
 
-    //@Column(length = 1000)
-    //private String opinion;
+
 
     public FilmModel () {}
 
@@ -267,14 +257,7 @@ public class FilmModel implements Response {
         this.runtime = runtime;
     }
 
-    /*
-    public String getOpinion() {
-        return opinion;
-    }
 
-    public void setOpinion(String opinion) {
-        this.opinion = opinion;
-    }*/
 
     public List<String> getOrigin_country() {
         return origin_country;
@@ -316,29 +299,5 @@ public class FilmModel implements Response {
         this.production_countries = production_countries;
     }
 
-    /*
-    public String getBase64Image () {
-        return base64Image;
-    }
 
-    public void setBase64Image(String base64Image) {
-        this.base64Image = base64Image;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-     */
-
-//    public CustomUser getCustomUser() {
-//        return customUser;
-//    }
-//
-//    public void setCustomUser(CustomUser customUser) {
-//        this.customUser = customUser;
-//    }
 }

@@ -23,9 +23,4 @@ public interface IFilmDAO {
 
     List<FilmModel> findByTitleContainingIgnoreCase(String title);
 
-    //ResponseEntity<Response> getFilmById(int id);
-
-    //ResponseEntity<Response> saveFilmById(String movie, int id);
-
-    //ResponseEntity<Response> saveFilm(FilmModel film) throws IOException;
 }

@@ -29,10 +29,10 @@ public enum UserRole {
         // TODO - Create List Authority (concat both roles & perms)
 
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>(
-//                getPermission().stream().map(index -> new SimpleGrantedAuthority(index)).toList()
+
         );
 
-        simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_" + this.name())); // Springs requirement to Authority role
+        simpleGrantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
 
         simpleGrantedAuthorityList.addAll(getPermission().stream().map(SimpleGrantedAuthority::new).toList());
 

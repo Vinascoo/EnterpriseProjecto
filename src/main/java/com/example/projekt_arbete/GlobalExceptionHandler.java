@@ -14,15 +14,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)  // Return 400 status for validation errors
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleValidationError(MethodArgumentNotValidException ex, Model model) {
         BindingResult bindingResult = ex.getBindingResult();
 
-        // Add errors to model for display in the form
         model.addAttribute("roles", UserRole.values());
         model.addAttribute("user", new UserDTO("", "", null));
         model.addAttribute("status", "Form submission failed. Please correct the errors.");
 
-        return "register"; // Redirect back to the register form with error messages
+        return "register";
     }
 }

@@ -1,39 +1,115 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Film sida</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #4e54c8;
+        }
+
+        a {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #4e54c8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .film-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .film-details p {
+            margin: 0.5rem 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        button {
+            background: #4e54c8;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background: #3e44a6;
+        }
+    </style>
 </head>
 <body>
-    <h1>Film sida</h1>
-    <a href="/">Tillbaka</a>
+<div class="container">
+    <h1>Movies</h1>
+    <a href="/">Return</a>
 
-    <div th:if="${saved}">
+    <div th:if="${saved}" class="message">
         <p th:text="${saved}"></p>
     </div>
 
-    <div th:if="${film}">
+    <div th:if="${film}" class="film-details">
         <p><strong>Title:</strong> <span th:text="${film.title}"></span></p>
 
         <div th:if="${saved == null}">
-            <!--
-            <form th:action="@{/films/{id}(id=${film.id})}" th:object="${film}" method="post">
-                    <input type="hidden" th:field="*{id}"/>
-                    <button type="submit">Lägg till film: Controller saveFilmById</button>
-            </form>
-            -->
-
             <form th:action="@{/movies/savefilm}" th:object="${film}" method="post">
-                <input type="hidden" th:field="*{id}"/>
-                <button type="submit">Spara film: FilmController saveFilm</button>
+                <input type="hidden" th:field="*{id}" />
+                <button type="submit">Save Movie</button>
             </form>
-
         </div>
 
-        <p><strong>Poster path:</strong> <span th:text="${film.poster_path}"></span></p>
-        <img th:src="'https://image.tmdb.org/t/p/original/' + ${film.poster_path}">
-
+        <p><strong>Poster Path:</strong> <span th:text="${film.poster_path}"></span></p>
+        <img th:src="'https://image.tmdb.org/t/p/original/' + ${film.poster_path}" alt="Movie Poster">
     </div>
 
-    <a href="/">Tillbaka</a>
+    <a href="/">Return</a>
+</div>
 </body>
 </html>

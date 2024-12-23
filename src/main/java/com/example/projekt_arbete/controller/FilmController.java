@@ -24,14 +24,13 @@ public class FilmController {
     private final IFilmService filmService;
     private final IUserService userService;
     private final IUserFilmService userFilmService;
-   // private final WebClient webClient;
 
     public FilmController (IFilmService filmService, IUserService userService,
-                           //, WebClient.Builder webClientBuilder
+
                            IUserFilmService userFilmService) {
         this.filmService = filmService;
         this.userService = userService;
-        //this.webClient = webClientBuilder.baseUrl("https://localhost:8443/films/").filter((request, next) -> {System.out.println("Request Headers: " + request.headers());return next.exchange(request);}).build();
+
         this.userFilmService = userFilmService;
     }
 
@@ -55,9 +54,6 @@ public class FilmController {
         }
 
 
-        //TODO - Showing films saved by logged in user
-        //model.addAttribute("films", filmService.findAll());
-
         return "redirect:/login";
 
     }
@@ -67,13 +63,6 @@ public class FilmController {
 
         List<FilmModel> films = filmService.findAll();
 
-        /*for (FilmModel film : films) {
-
-            String base64Image = Base64.getEncoder().encodeToString(film.getImage());
-
-            film.setBase64Image(base64Image);
-
-        }*/
 
         model.addAttribute("films", films);
 
@@ -93,32 +82,14 @@ public class FilmController {
     @PostMapping("/movies/search")
     public String searchMovies (@RequestParam String filmName, Model model) {
 
-//        ResponseEntity<Response> response = filmService.searchFilmByName(filmName);
-//
-//        if (response.getStatusCode().is2xxSuccessful()) {
-//            FilmDTO film = (FilmDTO) response.getBody();
-//
-//            model.addAttribute("film", film);
-//            model.addAttribute("filmName", filmName);
-//
-//        } else {
-//
-//            model.addAttribute("error", "ingen sån film");
-//        }
+
         List<FilmModel> filmList = filmService.findByTitleContainingIgnoreCase(filmName);
 
         if (filmList.isEmpty()) {
-            //FilmModel response1 = filmService.findByTitle(filmName).get();
+
 
             model.addAttribute("error", "ingen sån film");
-//            FilmModel response = filmService.findByTitleIgnoreCase(filmName.trim().toLowerCase()).get();
-//
-//            FilmDTO film = new FilmDTO();
-//
-//            film.setTitle(response.getTitle());
-//            film.setId((long) response.getFilmid());
-//            model.addAttribute("film", film);
-//            model.addAttribute("filmName", filmName);
+
         }
 
         if (!filmName.isBlank()) {
@@ -147,7 +118,7 @@ public class FilmController {
         FilmModel film1 = null;
 
         try {
-            // retrieving the session cookie, "JSESSIONID" after a log in with hard coded username and password
+
             ResponseEntity<Response> response = filmService.getFilmById(Integer.parseInt(filmId));
 
             if (response.getBody() instanceof FilmModel) {
@@ -169,7 +140,7 @@ public class FilmController {
 
         model.addAttribute("film", film1);
 
-        //return "film-details";
+
         return "searchid-page";
     }
 
@@ -201,10 +172,9 @@ public class FilmController {
     @PostMapping("/movies/savefilm")
     public String saveFilm (@ModelAttribute FilmModel filmModel, Model model) throws IOException {
 
-        //FilmModel film;
+
 
         int filmId = filmModel.getId();
-        //ResponseEntity response1 = filmService.save(filmModel);
 
         try {
 
@@ -225,7 +195,6 @@ public class FilmController {
             return "searchid-page";
         }
 
-        //model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
         return "redirect:/";
     }
 
@@ -252,10 +221,8 @@ public class FilmController {
         userFilmDTO.setTitle(film.getTitle());
 
 
-        //film.getOpinion();
-
         model.addAttribute("film", userFilmDTO);
-        //model.addAttribute("opinion", userFilm.getOpinion());
+
         return "opinion-page";
     }
 
@@ -266,9 +233,6 @@ public class FilmController {
 
         CustomUser user = userService.findUserByUsername("test").get();
 
-        //FilmModel filmModel = user.getFilmList().get(0);
-
-       // filmModel.getOpinion();
 
         model.addAttribute("film", film);
 
@@ -310,11 +274,6 @@ public class FilmController {
     public String getFilm (@PathVariable int id, Model model) {
 
         FilmModel film = (FilmModel) filmService.findById(id).getBody();
-
-        //film.getCustomUsers().get(1).getUserFilms().get(1).getOpinion();
-
-        //film.getUserFilms().get(1).getOpinion()
-        //film.getUserFilms().get(1).getOpinion();
 
         List<FilmModel> userFilms = userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get().getFilmList();
 

@@ -23,15 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.util.*;
 
-// Do more error handling
+
 @Service
 public class FilmService implements IFilmService{
 
 
     private String ApiKey="df0eb7f0729911f3781785d3811ec8dd";
 
-    //@Autowired
-    //private final FilmRepository filmRepository;
+
     private final IFilmDAO filmDao;
 
     private final IUserFilmService userFilmService;
@@ -42,12 +41,12 @@ public class FilmService implements IFilmService{
     private final RateLimiter rateLimiter;
 
     @Autowired
-    public FilmService (//WebClient.Builder webClient,
+    public FilmService (
                         FilmApiClient filmApiClient,
                         IUserFilmService userFilmService,
                         IFilmDAO filmDao, IUserService userService, RateLimiter rateLimiter) {
-        //this.filmRepository = filmRepository;
-       // this.webClientConfig = webClient.baseUrl("https://api.themoviedb.org/3/").build();
+
+
         this.filmDao = filmDao;
         this.userService = userService;
         this.rateLimiter = rateLimiter;
@@ -65,7 +64,7 @@ public class FilmService implements IFilmService{
         } else {
             return ResponseEntity.status(404).body(new ErrorResponse("Film inte funnen"));
         }
-       //return filmDao.getFilmById(id);
+
 
     }
 
@@ -78,39 +77,7 @@ public class FilmService implements IFilmService{
 
             FilmModel film = optionalFilm.get();
 
-            /*
-            String poster = film.getPoster_path();
 
-            String path = "https://image.tmdb.org/t/p/original/";
-
-            String imagePath = path + poster;
-
-            URL url = new URL(imagePath);
-
-            URLConnection connection = url.openConnection();
-
-            connection.connect();
-            //TODO - Error handle if no image link present
-            try (InputStream inputStream = connection.getInputStream();
-                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()
-            ){
-
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    byteArrayOutputStream.write(buffer, 0, bytesRead);
-                }
-
-                film.setImage(byteArrayOutputStream.toByteArray());
-
-
-            }
-
-            String base64 = Base64.getEncoder().encodeToString(film.getImage());
-
-            film.setBase64Image(base64);
-            */
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 
@@ -173,102 +140,14 @@ public class FilmService implements IFilmService{
             return ResponseEntity.ok(filmDao.save(film));
 
 
-            //filmDao.saveFilm(optionalFilm.get());
-           // return ResponseEntity.ok(optionalFilm.get());
+
         } else {
             return ResponseEntity.status(404).body(new ErrorResponse("Film inte funnen"));
         }
-        //return filmDao.saveFilmById(movie, id);
+
     }
 
-    /*@Override
-    public ResponseEntity<Response> save (FilmModel film) throws IOException {
 
-        String poster = film.getPoster_path();
-
-        String path = "https://image.tmdb.org/t/p/original/";
-
-        String imagePath = path + poster;
-
-        URL url = new URL(imagePath);
-
-        URLConnection connection = url.openConnection();
-
-        connection.connect();
-        //TODO - Error handle if no image link present
-        try (InputStream inputStream = connection.getInputStream();
-             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()
-        ){
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, bytesRead);
-            }
-
-            film.setImage(byteArrayOutputStream.toByteArray());
-
-
-        }
-
-        String base64 = Base64.getEncoder().encodeToString(film.getImage());
-
-        film.setBase64Image(base64);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        String username = authentication.getName();
-
-        CustomUser user = userService.findUserByUsername(username).get();
-
-        System.out.println("film.getId: " + film.getId());
-        System.out.println("film.getfilmid: " + film.getFilmid());
-       // System.out.println("film.geCustomUser: " + film.getCustomUser());
-        //System.out.println("current film: " + filmRepository.findById(film.getId()).get().);
-
-       // List<FilmModel> allFilms = filmRepository.findAll();
-        List<FilmModel> allFilms = filmDao.findAll();
-
-        for (FilmModel film1 : allFilms) {
-
-            if (film1.getId() == film.getId()) {
-
-                //FilmModel currentFilm = filmRepository.findByTitle(film.getTitle()).get();
-                FilmModel currentFilm = filmDao.findByTitle(film.getTitle()).get();
-
-                //List<CustomUser> list = currentFilm.getCustomUser();
-
-                //list.add(user);
-
-                //currentFilm.setCustomUser(currentFilm.getCustomUser().add(user) );
-                //currentFilm.setCustomUser(list);
-
-                List<CustomUser> customUserList = currentFilm.getCustomUsers();
-                customUserList.add(user);
-                currentFilm.setCustomUsers(customUserList);
-
-                return ResponseEntity.ok(filmDao.save(currentFilm));
-
-            }
-
-        }
-
-       // List<CustomUser> list = film.getCustomUser();
-        //list.add(user);
-
-        //film.setCustomUser(list);
-
-        //film.setCustomUser(user);
-        //film.getCustomUsers().add(user);
-        List<CustomUser> customUserList = new ArrayList<>();
-        customUserList.add(user);
-
-        film.setCustomUsers(customUserList);
-        return ResponseEntity.ok(filmDao.save(film));
-        //return filmRepository.findById(film.getId()).get();
-
-    }*/
 
     @Override
     public List<FilmModel> findAll () {
@@ -361,12 +240,12 @@ public class FilmService implements IFilmService{
                 return ResponseEntity.status(400).body(new ErrorResponse("Du måste skriva namn"));
             }
 
-            //filmRepository.findByTitleIgnoreCase(filmName.trim().toLowerCase());
+
 
             List<FilmModel> allFilms = filmDao.findAll();
 
             for (FilmModel film : allFilms) {
-                //System.out.println(film.getOriginal_title());
+
 
                 if (film.getTitle().equals(filmName)) {
 
@@ -485,17 +364,6 @@ public class FilmService implements IFilmService{
                 return ResponseEntity.status(201).body("Opinion adderad");
 
             }
-            /*
-            if (optionalFilm.isPresent()) {
-
-                optionalFilm.get().setOpinion(opinion);
-                filmDao.save(filmDao.findById(id).get());
-                return ResponseEntity.status(201).body("Opinion adderad!");
-
-            } else {
-
-                return ResponseEntity.status(404).body("kan int finne film");
-            }*/
 
 
         } catch (Exception e) {
@@ -520,7 +388,7 @@ public class FilmService implements IFilmService{
 
                 if (opinion == true && description == true) {
                     filmDTO.setDescription(film.getOverview());
-                   // filmDTO.setOpinion(film.getOpinion());
+
                     if (userFilmService.findByFilmModelAndCustomUser(film, userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get()).isPresent()) {
                         filmDTO.setOpinion(userFilmService.findByFilmModelAndCustomUser(film, userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get()).get().getOpinion());
                     }
@@ -646,49 +514,5 @@ public class FilmService implements IFilmService{
     }
 
 
-
-
-
-//    @Override
-//    public ResponseEntity<Response> getInfo() {
-//        try {
-//            List<FilmModel> films = findAll();
-//
-//            if (films.isEmpty()) {
-//                return ResponseEntity.ok(new ErrorResponse("Du har inga sparade filmer"));
-//            }
-//
-//            // Count and categorize films
-//            long usFilmCount = films.stream()
-//                    .filter(film -> "US".equals(film.getOrigin_country().get(0)))
-//                    .count();
-//
-//            long nonUsFilmCount = films.size() - usFilmCount;
-//
-//            List<FilmModel> adultFilms = films.stream()
-//                    .filter(FilmModel::isAdult)
-//                    .toList();
-//
-//            List<String> budgetFilms = films.stream()
-//                    .sorted(Comparator.comparingInt(FilmModel::getBudget))
-//                    .map(film -> film.getOriginal_title() + " " + film.getBudget())
-//                    .toList();
-//
-//            IntegerResponse intRes = (IntegerResponse) getAverageRuntime().getBody();
-//            int averageRuntime = intRes != null ? intRes.getAverageRuntime() : 0;
-//
-//            String responseMessage = String.format("Du har: %d filmer sparade.\n" +
-//                            "Medellängden på filmerna är: %d minuter, " +
-//                            "varav %d porrfilm(er). " +
-//                            "Budget rank: %s. " +
-//                            "Av dessa är %d amerikanska och resten %d från andra länder.",
-//                    films.size(), averageRuntime, adultFilms.size(), budgetFilms, usFilmCount, nonUsFilmCount);
-//
-//            return ResponseEntity.ok(new ErrorResponse(responseMessage));
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Något fel inträffade"));
-//        }
-//    }
 
 }

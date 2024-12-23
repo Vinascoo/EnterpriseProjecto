@@ -2,27 +2,74 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${film.title}"></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #4e54c8;
+        }
+
+        a {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #4e54c8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .movie-details {
+            margin-top: 1rem;
+            line-height: 1.8;
+        }
+
+        .movie-details span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Film Information</h1>
-    <br/>
-    <a href="/">Tillbaka</a>
-    <br/>
-    <br/>
+<div class="container">
+    <h1>Movie Information</h1>
+    <a href="/">Return</a>
 
-    <div>
-        <span>Namn: </span> <span th:text="${film.title}"></span>
-        <br/>
-        <br/>
-
-        <span>Åsikt: </span> <span th:text="${film.opinion}"></span>
-        <br/>
-        <br/>
-
-        <span>Deskription: </span> <span th:text="${film.description}"></span>
+    <div class="movie-details">
+        <p>
+            <span>Name:</span> <span th:text="${film.title}"></span>
+        </p>
+        <p>
+            <span>Opinion:</span> <span th:text="${film.opinion}"></span>
+        </p>
+        <p>
+            <span>Description:</span> <span th:text="${film.description}"></span>
+        </p>
     </div>
-
-
+</div>
 </body>
 </html>

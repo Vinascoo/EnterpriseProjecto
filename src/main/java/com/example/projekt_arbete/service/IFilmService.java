@@ -12,15 +12,15 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
-//Declare relevant methods
+
 public interface IFilmService {
-    //ResponseEntity<Response> getFilmById(@RequestParam(defaultValue = "movie") String movie, @PathVariable int id);
+
 
     ResponseEntity<Response> getFilmById(int id);
 
     ResponseEntity<Response> saveFilmById(@RequestParam(defaultValue = "movie") String movie, @PathVariable int id) throws IOException;
 
-    //ResponseEntity<Response> save (FilmModel film) throws IOException;
+
     List<FilmModel> findAll ();
     ResponseEntity<Response> findById (Integer id);
 

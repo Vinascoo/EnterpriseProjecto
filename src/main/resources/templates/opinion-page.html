@@ -2,35 +2,100 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Opinion page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinion Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe29f, #ffa99f);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e74c3c;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #c0392b;
+        }
+    </style>
 </head>
 <body>
-    <h1 th:text="${film.title}"></h1>
-    <br/>
-    <a href="/">Tillbaka</a>
-    <br/>
+<div class="container">
+    <h1 th:text="${film.title}">Movie Title</h1>
+    <a href="/">Return to Main</a>
 
     <div>
-        <p>Opinion</p>
-        <p th:text="${film.opinion}"></p>
-
-        <br/>
-        <br/>
-
-        <form th:action="@{/opinion}" th:object="${film}" method="post">
-
-            <input type="hidden" th:field="*{title}">
-
-            <input type="hidden" th:field="*{id}">
-            <label>
-                <input type="text" th:field="*{opinion}" placeholder="Din åsikt">
-            </label>
-
-            <button type="submit">Ändra/lägg till</button>
-
-        </form>
+        <p><strong>Current Opinion:</strong></p>
+        <p th:text="${film.opinion}">No opinion yet.</p>
     </div>
 
+    <form th:action="@{/opinion}" th:object="${film}" method="post">
+        <input type="hidden" th:field="*{title}" />
+        <input type="hidden" th:field="*{id}" />
 
+        <label for="opinion">Your Opinion:</label>
+        <input type="text" th:field="*{opinion}" id="opinion" placeholder="Enter your opinion here..." />
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
 </html>

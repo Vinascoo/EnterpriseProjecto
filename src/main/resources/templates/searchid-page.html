@@ -1,42 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>sök film id</title>
+    <meta charset="UTF-8">
+    <title>Search Movie ID</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8cdda, #1e90ff);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 3rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .film-details p {
+            margin-bottom: 1rem;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>sök film id</h1>
 
-    <a href="/">Tillbaka</a>
+<div class="container">
+    <h1>Search Movie ID</h1>
+    <a href="/">Return</a>
 
-    <div>
+    <form th:action="@{/movies/searchid}" method="post">
+        <label for="filmId">Movie ID:</label>
+        <input type="number" id="filmId" name="filmId" required>
+        <button type="submit">Search</button>
+    </form>
 
-        <form th:action="@{/movies/searchid}" method="post">
-
-            <label for="filmId">Ange film id:</label>
-            <input type="number" id="filmId" name="filmId" required>
-            <button type="submit">Sök</button>
-
-        </form>
-    </div>
-    <div th:if="${error}">
+    <div th:if="${error}" class="error">
         <p th:text="${error}"></p>
     </div>
 
-    <div th:if="${film}">
-
+    <div th:if="${film}" class="film-details">
         <form th:action="@{/movies/getfilm}" th:object="${film}" method="post">
-
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{title}" />
             <input type="hidden" th:field="*{poster_path}" />
 
-
             <p th:text="*{id}"></p>
             <p th:text="${film.title}"></p>
-            <button type="submit">Se detaljer</button>
+            <button type="submit">See Details</button>
         </form>
-
     </div>
+</div>
 
 </body>
 </html>

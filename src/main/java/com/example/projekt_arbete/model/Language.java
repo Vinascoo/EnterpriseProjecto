@@ -2,12 +2,10 @@ package com.example.projekt_arbete.model;
 
 import jakarta.persistence.*;
 
-//@Entity
+
 @Embeddable
 public class Language {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String englishName;

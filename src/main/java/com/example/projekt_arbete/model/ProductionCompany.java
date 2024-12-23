@@ -2,18 +2,18 @@ package com.example.projekt_arbete.model;
 
 import jakarta.persistence.*;
 
-//@Entity
+
 @Embeddable
 public class ProductionCompany {
 
-    //@Id
+
     private Long id;
 
     private String name;
 
     private String originCountry;
 
-    // Getters and Setters
+
 
     public Long getId() {
         return id;
