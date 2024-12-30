@@ -81,13 +81,6 @@ public class FilmModel implements Response {
 
     public FilmModel () {}
 
-    public boolean isAdult() {
-        return adult;
-    }
-
-    public void setAdult(boolean adult) {
-        this.adult = adult;
-    }
 
     public String getBackdropPath() {
         return backdropPath;

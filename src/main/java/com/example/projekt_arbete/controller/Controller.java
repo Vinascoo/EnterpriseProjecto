@@ -26,7 +26,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-// TODO - More error handling, but probably in FilmService class
+
 
 @RestController
 @RequestMapping("/films")

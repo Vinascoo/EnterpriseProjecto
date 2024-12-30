@@ -114,7 +114,6 @@ public class FilmController {
         System.out.println("in postMapping for searchid");
 
 
-        // TODO - plenty! Check the username and password, and change to https, also error handle
         FilmModel film1 = null;
 
         try {
@@ -147,7 +146,6 @@ public class FilmController {
     @PostMapping("/movies/getfilm")
     public String getFilm (@ModelAttribute FilmModel film, Model model) {
 
-        //TODO - go to searchid-page.html to include more film parameters, or consider using a DTO..
         System.out.println("film.title: " + film.getTitle());
         System.out.println("film.id: " + film.getId());
         System.out.println("film.poster_path: " + film.getPoster_path());

@@ -12,7 +12,6 @@ import com.example.projekt_arbete.response.ListResponse;
 import com.example.projekt_arbete.response.Response;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +35,7 @@ public class FilmService implements IFilmService{
     private final IUserFilmService userFilmService;
 
     private final IUserService userService;
-    //private final WebClient webClientConfig;
+
     private final FilmApiClient filmApiClient;
     private final RateLimiter rateLimiter;
 
@@ -96,25 +95,15 @@ public class FilmService implements IFilmService{
 
             System.out.println("film.getId: " + film.getId());
             System.out.println("film.getfilmid: " + film.getFilmid());
-            // System.out.println("film.geCustomUser: " + film.getCustomUser());
-            //System.out.println("current film: " + filmRepository.findById(film.getId()).get().);
 
-            // List<FilmModel> allFilms = filmRepository.findAll();
             List<FilmModel> allFilms = findAll();
 
             for (FilmModel film1 : allFilms) {
 
                 if (film1.getId() == film.getId()) {
 
-                    //FilmModel currentFilm = filmRepository.findByTitle(film.getTitle()).get();
                     FilmModel currentFilm = findByTitle(film.getTitle()).get();
 
-                    //List<CustomUser> list = currentFilm.getCustomUser();
-
-                    //list.add(user);
-
-                    //currentFilm.setCustomUser(currentFilm.getCustomUser().add(user) );
-                    //currentFilm.setCustomUser(list);
 
                     List<CustomUser> customUserList = currentFilm.getCustomUsers();
                     customUserList.add(user);
@@ -126,13 +115,6 @@ public class FilmService implements IFilmService{
 
             }
 
-            // List<CustomUser> list = film.getCustomUser();
-            //list.add(user);
-
-            //film.setCustomUser(list);
-
-            //film.setCustomUser(user);
-            //film.getCustomUsers().add(user);
             List<CustomUser> customUserList = new ArrayList<>();
             customUserList.add(user);
 
@@ -190,7 +172,7 @@ public class FilmService implements IFilmService{
             if (filmDao.findById(id).isPresent()) {
 
                 filmDao.deleteById(id);
-                return ResponseEntity.ok("Film med id "+ id + " tagen borta");
+                return ResponseEntity.ok("Film with id "+ id + " removed");
 
             } else {
 
@@ -258,9 +240,9 @@ public class FilmService implements IFilmService{
                 }
             }
 
-            return ResponseEntity.status(404).body(new ErrorResponse("Ingen film funnen med namn: " + filmName));
+            return ResponseEntity.status(404).body(new ErrorResponse("No movie found with name: " + filmName));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new ErrorResponse("något fel"));
+            return ResponseEntity.status(500).body(new ErrorResponse("something wrong"));
         }
     }
 
@@ -297,13 +279,13 @@ public class FilmService implements IFilmService{
                     }
                 }
 
-                return ResponseEntity.status(400).body(new ErrorResponse("Finns inte film: " + title));
+                return ResponseEntity.status(400).body(new ErrorResponse("movie does not exist: " + title));
             } catch (Exception e) {
-                return ResponseEntity.status(500).body(new ErrorResponse("något fel"));
+                return ResponseEntity.status(500).body(new ErrorResponse("something wrong"));
             }
 
         } else {
-            return ResponseEntity.status(429).body(new ErrorResponse("för många förfrågan"));
+            return ResponseEntity.status(429).body(new ErrorResponse("too many requests"));
         }
     }
 
@@ -327,7 +309,7 @@ public class FilmService implements IFilmService{
 
             return ResponseEntity.ok(new IntegerResponse(runtimeInMin / filmDao.findAll().size()));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new ErrorResponse("något fel"));
+            return ResponseEntity.status(500).body(new ErrorResponse("something wrong"));
         }
     }
 
@@ -336,7 +318,7 @@ public class FilmService implements IFilmService{
 
         try {
             if (opinion == null || opinion.isEmpty() || opinion.isBlank()) {
-                return ResponseEntity.status(400).body("måste ha body");
+                return ResponseEntity.status(400).body("need body");
             }
 
             FilmModel optionalFilm = filmDao.findById(id).get();
@@ -351,7 +333,7 @@ public class FilmService implements IFilmService{
 
                 userFilmService.saveUserFilm(userFilm);
 
-                return ResponseEntity.ok().body("Opinion uppdaterad");
+                return ResponseEntity.ok().body("Opinion updated");
             } else {
 
                 UserFilm newUserFilm = new UserFilm();
@@ -361,13 +343,13 @@ public class FilmService implements IFilmService{
 
                 userFilmService.saveUserFilm(newUserFilm);
 
-                return ResponseEntity.status(201).body("Opinion adderad");
+                return ResponseEntity.status(201).body("Opinion added");
 
             }
 
 
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("något fel");
+            return ResponseEntity.status(500).body("something wrong");
         }
     }
 
@@ -404,7 +386,7 @@ public class FilmService implements IFilmService{
                         filmDTO.setOpinion(userFilmService.findByFilmModelAndCustomUser(film, userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get()).get().getOpinion());
                     }
 
-                    filmDTO.setDescription("inget här");
+                    filmDTO.setDescription("nothing here");
 
                     return ResponseEntity.ok(filmDTO);
 
@@ -413,21 +395,21 @@ public class FilmService implements IFilmService{
                 if (description == true) {
                     filmDTO.setTitle(film.getTitle());
                     filmDTO.setDescription(film.getOverview());
-                    filmDTO.setOpinion("inget här");
+                    filmDTO.setOpinion("nothing here");
 
                     return ResponseEntity.ok(filmDTO);
                 }
                 filmDTO.setTitle(film.getTitle());
-                filmDTO.setDescription("inget här");
-                filmDTO.setOpinion("inget här");
+                filmDTO.setDescription("nothing here");
+                filmDTO.setOpinion("nothing here");
 
                 return ResponseEntity.ok(filmDTO);
             } catch (Exception e) {
-                return ResponseEntity.status(500).body(new ErrorResponse("något fel på databas"));
+                return ResponseEntity.status(500).body(new ErrorResponse("something wrong with the database"));
             }
 
         } else {
-            return ResponseEntity.status(429).body(new ErrorResponse("för många förfrågan"));
+            return ResponseEntity.status(429).body(new ErrorResponse("too many requests"));
         }
 
     }
@@ -437,11 +419,8 @@ public class FilmService implements IFilmService{
 
         if (rateLimiter.acquirePermission()) {
 
-            int USfilms = 0;
-            int nonUSfilms = 0;
-
-            ArrayList<FilmModel> adultFilms = new ArrayList<>();
-            ArrayList<String> budgetFilms = new ArrayList<>();
+            int AmericanMovies = 0;
+            int NonAmericanMovies = 0;
 
             try {
 
@@ -456,18 +435,14 @@ public class FilmService implements IFilmService{
 
                 for (FilmModel film : films) {
 
-                    if (film.isAdult() == true) {
-                        adultFilms.add(film);
-                    }
-
                     if (Objects.equals(film.getOrigin_country().get(0), "US")) {
-                        USfilms++;
+                        AmericanMovies++;
                     } else {
-                        nonUSfilms++;
+                        NonAmericanMovies++;
                     }
 
-                    System.out.println(film.getOriginal_title() + ": " + film.getBudget() + " origin country " + film.getOrigin_country().get(0));
-                    budgetFilms.add(film.getOriginal_title() + " " + film.getBudget());
+                    System.out.println(film.getOriginal_title() + ": "  + " origin country " + film.getOrigin_country().get(0));
+                    ;
                 }
 
 
@@ -479,13 +454,13 @@ public class FilmService implements IFilmService{
                 IntegerResponse intRes = (IntegerResponse) getAverageRuntime().getBody();
                 int averageRuntime = intRes.getAverageRuntime();
 
-                return ResponseEntity.ok(new ErrorResponse("Det finns: " + findAll().size() + " filmer sparade." + "\n\r" +
-                        " medellängden på filmerna är: " + averageRuntime + " minuter, " +
-                        "varav " + adultFilms.size() + " porrfilm(er)" + "budge rank " + budgetFilms + " av dessa är " + USfilms + " amerikanska och resten " + nonUSfilms + " från andra länder"));
+                return ResponseEntity.ok(new ErrorResponse("There are: " + findAll().size() + " movies saved." + "\n\r" +
+                        " average runtime for the movies are: " + averageRuntime + " minutes, " +
+                        "where " +   " of these are " + AmericanMovies + " american and the rest " + NonAmericanMovies + " from other countries"));
 
 
             } catch (Exception e) {
-                return ResponseEntity.status(500).body(new ErrorResponse("något fel"));
+                return ResponseEntity.status(500).body(new ErrorResponse("something wrong"));
             }
         } else {
             return ResponseEntity.status(429).body(new ErrorResponse("för många förfrågan"));
